@@ -1,0 +1,23 @@
+{
+  "name": "graphqueens",
+  "version": "1.0.0",
+  "description": "a graphql service for queens",
+  "main": "index.js",
+  "dependencies": {
+    "nemesis-db": "^1.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janecakemaster/graphQueens.git"
+  },
+  "author": "janecakemaster",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/janecakemaster/graphQueens/issues"
+  },
+  "homepage": "https://github.com/janecakemaster/graphQueens#readme"
+}
