@@ -4,6 +4,8 @@
   "description": "a graphql service for queens",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
     "nemesis-db": "^1.0.0"
   },
   "devDependencies": {},
