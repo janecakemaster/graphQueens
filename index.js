@@ -3,11 +3,14 @@ const { ApolloServer, gql } = require('apollo-server')
 const queens = [
   {
     name: 'Aquaria',
-    appearances: ['Season 10']
+    appearances: ['Season 10'],
+    fanFave: 'https://www.instagram.com/p/BhfbzGOjS7s/?taken-by=ageofaquaria'
+
   },
   {
     name: 'Shangela',
-    appearances: ['Season 2', 'Season 3', 'All Stars Season 3']
+    appearances: ['Season 2', 'Season 3', 'All Stars Season 3'],
+    fanFave: 'https://www.instagram.com/p/BfTWFIIn8Oh/?taken-by=itsshangela'
   },
   {
     name: 'RuPaul',
@@ -20,6 +23,7 @@ const typeDefs = gql`
     name: String!
     nickname: String
     appearances: [String]
+    fanFave: String
   }
 
   type Query {
