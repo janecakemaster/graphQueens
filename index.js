@@ -24,12 +24,14 @@ const typeDefs = gql`
 
   type Query {
     queens: [Queen]
+    queen(name: String!): Queen
   }
 `
 
 const resolvers = {
   Query: {
-    queens: () => queens
+    queens: () => queens,
+    queen: (obj, { name }) => queens.find(q => q.name === name)
   }
 }
 
