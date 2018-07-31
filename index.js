@@ -19,7 +19,11 @@ const queens = [
 ]
 
 const typeDefs = gql`
-  type Queen {
+  interface Person {
+    name: String!
+  }
+
+  type Queen implements Person {
     name: String!
     nickname: String
     appearances: [String]
