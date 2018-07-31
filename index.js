@@ -23,6 +23,10 @@ const typeDefs = gql`
     name: String!
   }
 
+  type Show {
+    name: String!
+  }
+
   type Queen implements Person {
     name: String!
     nickname: String
@@ -34,9 +38,21 @@ const typeDefs = gql`
     queens: [Queen]
     queen(name: String!): Queen
   }
+
+  input QueenInput {
+    name: String
+  }
+
+  type Mutation {
+    createQueen(input: QueenInput!): Queen
+  }
 `
 
 const resolvers = {
+  Mutation: {
+    createQueen: (obj, { input }) => queens.push(input) && input
+  },
+
   Query: {
     queens: () => queens,
     queen: (obj, { name }) => queens.find(q => q.name === name)
