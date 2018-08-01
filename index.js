@@ -10,9 +10,9 @@ const resolvers = {
   },
 
   Queen: {
-    appearances: async (obj) => {
-      const appearances = await graph.findEdges({ subject: obj.id, predicate: 'AppearsIn' })
-      return appearances.map(async a => graph.findNode(a.object))
+    appearsIn: async (obj) => {
+      const appearsIn = await graph.findEdges({ subject: obj.id, predicate: 'AppearsIn' })
+      return appearsIn.map(async a => graph.findNode(a.object))
     }
   },
 

@@ -25,7 +25,7 @@ module.exports = gql`
     name: String!
     url: String
     realName: String
-    appearances: [Season]
+    appearsIn: [Season]
   }
 
   type Query {
