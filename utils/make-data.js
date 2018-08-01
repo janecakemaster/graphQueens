@@ -3,6 +3,7 @@
  */
 
 const http = require('http')
+const cheerio = require('cheerio')
 const { join, map } = require('bluebird')
 const { Graph } = require('nemesis-db')
 const { collect } = require('streaming-iterables')
@@ -22,7 +23,20 @@ http.get('http://rupaulsdragrace.wikia.com/api/v1/Navigation/Data', (res) => {
       const massagedData = massageData(data)
       await join(
         map(massagedData.seasons, season => graph.createNode(season)),
-        map(massagedData.queens, queen => graph.createNode(queen)),
+        map(massagedData.queens, async queen => {
+          const { id, url } = await graph.createNode(queen)
+          http.get(url, (res) => {
+            let rawData = ''
+            res.on('data', (chunk) => { rawData += chunk })
+            res.on('end', async () => {
+              const $ = cheerio.load(rawData)
+              const realName = $("h3:contains('Real Name')").next().text()
+              return graph.updateNode({ id, realName })
+            })
+          }).on('error', (err) => {
+            console.log('Error: ' + err.message)
+          })
+        }),
         map(massagedData.judges, judge => graph.createNode(judge))
       )
 

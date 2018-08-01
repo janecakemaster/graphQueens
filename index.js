@@ -1,65 +1,8 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer } = require('apollo-server')
 const { Graph } = require('nemesis-db')
 const { collect } = require('streaming-iterables')
+const typeDefs = require('./types')
 const graph = new Graph('redis://localhost/1')
-
-const typeDefs = gql`
-  interface Person {
-    id: ID!
-    type: String!
-    name: String!
-  }
-
-  type Season {
-    id: ID!
-    type: String!
-    name: String!
-  }
-
-  type Judge implements Person {
-    id: ID!
-    type: String!
-    name: String!
-  }
-
-  type Queen implements Person {
-    id: ID!
-    type: String!
-    name: String!
-    appearances: [Season]
-  }
-
-  type Query {
-    seasons: [Season]
-    season(name: String!): Season
-    queens: [Queen]
-    queen(name: String!): Queen
-    judges: [Judge]
-    judge(name: String!): Judge
-  }
-
-  input CreateQueenInput {
-    name: String!
-    nickname: String
-  }
-
-  input UpdateQueenInput {
-    id: ID!
-    name: String!
-    nickname: String
-  }
-
-  input AddQueenToSeasonInput {
-    queenId: ID!
-    seasonId: ID!
-  }
-
-  type Mutation {
-    createQueen(input: CreateQueenInput!): Queen
-    updateQueen(input: UpdateQueenInput!): Queen
-    addQueenToSeason(input: AddQueenToSeasonInput!): Season
-  }
-`
 
 const resolvers = {
   Person: {
@@ -85,6 +28,7 @@ const resolvers = {
   Query: {
     seasons: async () => {
       const nodes = await collect(graph.allNodes())
+      // ideally here we'd be looking into redis directly and index by name
       return nodes.filter(node => node.type === 'Season')
     },
     queens: async () => {
@@ -100,7 +44,7 @@ const resolvers = {
       return nodes.find(node => node.type === 'Season' && node.name === args.name)
     },
     queen: async (obj, args) => findByName(args.name, 'Queen'),
-    judge: async (obj, args) => findByName(args.name, 'Jdge')
+    judge: async (obj, args) => findByName(args.name, 'Judge')
   }
 }
 
