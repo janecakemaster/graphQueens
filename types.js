@@ -31,7 +31,7 @@ module.exports = gql`
   type Query {
     seasons: [Season]
     season(name: String!): Season
-    queens: [Queen]
+    queens(appearsIn: String): [Queen]
     queen(name: String!): Queen
     judges: [Judge]
     judge(name: String!): Judge

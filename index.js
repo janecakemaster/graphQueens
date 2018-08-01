@@ -31,8 +31,13 @@ const resolvers = {
       // ideally here we'd be looking into redis directly and index by name
       return nodes.filter(node => node.type === 'Season')
     },
-    queens: async () => {
+    queens: async (obj, args) => {
       const nodes = await collect(graph.allNodes())
+      if (args.appearsIn) {
+        const season = await findByName(args.appearsIn, 'Season')
+        const appearsIn = await graph.findEdges({ predicate: 'AppearsIn', object: season.id })
+        return appearsIn.map(async a => graph.findNode(a.subject))
+      }
       return nodes.filter(node => node.type === 'Queen')
     },
     judges: async () => {
