@@ -26,6 +26,7 @@ module.exports = gql`
     url: String
     realName: String
     appearsIn: [Season]
+    appearances: [String] @deprecated(reason: "use appearsIn")
   }
 
   type Query {
